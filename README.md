@@ -10,7 +10,7 @@ There are a few components to this script:
 - automations to control lights/music (could be extended for hvac for example)
 
 The flow goes like this:
-- automation triggers the python script every 10 seconds or if the motion sensor for that room gets triggered (the configuration is placed in that automation, see EXAMPLE)
+- automation triggers the python script every 10 seconds or if the motion sensor for that room gets triggered (the configuration is placed in that automation)
 - the script then checks if the room is occupied already (timer is running)
 - if yes, it checks every entity for its status and marks the room as occupied
 - if not, it only checks entities defined in entities_toggle
@@ -23,4 +23,4 @@ For my setup I use the following helpers and entities:
 - room-assistant with a Pi in every room, measuring distances to our watches via bluetooth
 - one or more motion sensors in each room
 - automation for each room to run this script
-- followup automations which are checking for the timer state (see EXAMPLES) and toggle lights/music/whatever you like
+- followup automations which are checking for the timer state and toggle lights/music/whatever you like
