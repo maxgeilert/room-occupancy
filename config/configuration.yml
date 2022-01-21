@@ -1,0 +1,23 @@
+# use automations.yaml for ui created automations
+automation ui: !include automations.yaml
+# use automations folder for manually written automations
+automation manual: !include_dir_merge_list automations/
+
+# input booleans to overwrite the status of a room (keep it occupied no matter what)
+input_boolean:
+  living_or:
+    name: Livingroom overwrite
+
+# timer for each room to track the status and reset it after the timeout
+timer:
+  livingroom_timer:
+    name: Livingroom Timer
+
+# logger settings to get output of the script
+logger:
+  default: info
+  logs:
+    custom_components.pyscript: error # to get output, set this to info
+
+# enable python_scripts
+python_script:

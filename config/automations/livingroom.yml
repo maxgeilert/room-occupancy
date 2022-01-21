@@ -1,0 +1,89 @@
+- alias: Livingroom Occupancy
+  description: 'Defines occupancy state for room'
+  trigger:
+  - platform: time_pattern
+    id: time
+    seconds: '10'
+  - platform: state
+    entity_id: binary_sensor.livingroom_sensor_motion
+    id: motion
+    to: 'on'
+  condition: []
+  action:
+  - service: python_script.room_occupancy
+    data:
+      roomname: livingroom # if you are using room-assistant, make sure this string is identical to the config
+      entities_toggle: # entities that can mark a room as occupied
+      - binary_sensor.livingroom_sensor_motion
+      entities_keep: # entities that can keep a room occupied
+      - sensor.max_room_presence
+      - sensor.iglo_room_presence
+      timeout: 5 # timeout of the room, timer gets set to this
+  mode: single
+- alias: Livingroom Light
+  description: 'toggle light depending on timer state'
+  trigger:
+  - platform: state
+    entity_id: timer.livingroom_timer
+    id: 'on'
+    from: idle
+    to: active
+  - platform: state
+    entity_id: timer.livingroom_timer
+    id: 'off'
+    from: active
+    to: idle
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: 'on'
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.wohnzimmer_licht
+    - conditions:
+      - condition: trigger
+        id: 'off'
+      sequence:
+      - service: light.turn_off
+        target:
+          entity_id: light.wohnzimmer_licht
+    default: []
+  mode: single
+- alias: Livingroom Music
+  description: 'toggle music depending on timer state'
+  trigger:
+  - platform: state
+    entity_id: timer.livingroom_timer
+    id: 'on'
+    from: idle
+    to: active
+  - platform: state
+    id: 'off'
+    entity_id: timer.livingroom_timer
+    from: active
+    to: idle
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: 'on'
+      sequence:
+      - service: media_player.volume_mute
+        data:
+          is_volume_muted: false
+        target:
+          entity_id: media_player.living_room
+    - conditions:
+      - condition: trigger
+        id: 'off'
+      sequence:
+      - service: media_player.volume_mute
+        data:
+          is_volume_muted: true
+        target:
+          entity_id: media_player.living_room
+  mode: single
