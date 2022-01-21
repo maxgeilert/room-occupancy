@@ -1,0 +1,16 @@
+room_occupancy:
+  name: Room Occupancy
+  description: get occupancy status for any room
+  fields:
+    roomname:
+      description: name of the room
+      example: livingroom
+    entities_toggle:
+      description: List of entities, which should be able to toggle a room
+      example: ["sensor.livingroom_sensor_motion"]
+    entities_keep:
+      description: List of entities, which should be able to keep a room occupied
+      example: ["sensor.max_room_presence"]
+    active_states:
+      description: List of states that should be considered "active". Can be vars too (e.g. roomname)
+      example: ["active","on","true",True, roomname]
