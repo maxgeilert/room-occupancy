@@ -8,6 +8,10 @@
     entity_id: binary_sensor.livingroom_sensor_motion
     id: motion
     to: 'on'
+  - platform: state
+    entity_id: input_boolean.livingroom_overwrite
+    id: overwrite
+    to: 'on'
   condition: []
   action:
   - service: python_script.room_occupancy
@@ -15,6 +19,7 @@
       roomname: livingroom # if you are using room-assistant, make sure this string is identical to the config
       entities_toggle: # entities that can mark a room as occupied
       - binary_sensor.livingroom_sensor_motion
+      - input_boolean.livingroom_overwrite
       entities_keep: # entities that can keep a room occupied
       - sensor.max_room_presence
       - sensor.iglo_room_presence
